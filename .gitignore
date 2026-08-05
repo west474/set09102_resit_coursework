@@ -29,3 +29,5 @@ postgres_data/
 *.userosscache
 *.sln.docstates
 
+# Keys
+*-key*
