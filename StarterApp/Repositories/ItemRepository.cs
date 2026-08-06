@@ -22,13 +22,11 @@ public class ItemRepository : IItemRepository
     {
         try
         {
-            var items = await _context.Items
+            return await _context.Items
                 .Include(i => i.Category)
                 .Include(i => i.Owner)
-                .OrderByDescending(i => CreatedAt)
+                .OrderByDescending(i => i.CreatedAt)
                 .ToListAsync();
-
-            return items;  
         }
         catch (Exception ex)
         {
@@ -42,7 +40,7 @@ public class ItemRepository : IItemRepository
     {
         try
         {
-            var item = await _context.Items
+            return await _context.Items
                 .Include(i => i.Category)
                 .Include(i => i.Owner)
                 .FirstOrDefaultAsync(i => i.Id == id);
@@ -55,12 +53,15 @@ public class ItemRepository : IItemRepository
     }
 
     // creates an item.
-    public async Task<Item> CreateAsync(Item entity)
+    public async Task<Item> AddAsync(Item entity)
     {
         try
         {
             entity.CreatedAt = DateTime.UtcNow;
             entity.UpdatedAt = DateTime.UtcNow;
+
+            _context.Items.Add(entity);
+            await _context.SaveChangesAsync();
 
             if (entity.CategoryId.HasValue)
             {
@@ -94,7 +95,7 @@ public class ItemRepository : IItemRepository
             existing.CategoryId = entity.CategoryId;
             existing.Latitude = entity.Latitude;
             existing.Longitude = entity.Longitude;
-            existing.PricePerDay = entity.PricePerDay;
+            existing.dailyRate = entity.DailyRate;
             existing.IsAvailable = entity.IsAvailable;
             existing.UpdatedAt = DateTime.UtcNow;
 
@@ -146,7 +147,7 @@ public class ItemRepository : IItemRepository
             return await _context.Items
                 .Include(i => i.Category)
                 .Where(i => i.Title.ToLower().Contains(lowerCaseQuery)
-                    || i.Description.ToLower().Contains(lowerCaseQuery))
+                    || (i.Description != null && i.Description.ToLower().Contains(lowerCaseQuery)))
                 .ToListAsync();
         }
         catch (Exception ex)
@@ -157,7 +158,7 @@ public class ItemRepository : IItemRepository
     }
 
     // show items by category.
-    public async Task<List<Item>> GetCategoryAsync(int categoryId)
+    public async Task<List<Item>> GetByCategoryAsync(int categoryId)
     {
         try
         {

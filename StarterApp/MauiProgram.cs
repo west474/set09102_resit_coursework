@@ -4,6 +4,7 @@ using StarterApp.Database.Data;
 using StarterApp.Views;
 using System.Diagnostics;
 using StarterApp.Services;
+using StarterApp.Repositories;
 
 namespace StarterApp;
 
@@ -45,12 +46,18 @@ public static class MauiProgram
             // creates singleton. When any class constructor asks for IAuthenticationService
             // it results in this being called.
             builder.Services.AddSingleton<IAuthenticationService, ApiAuthenticationService>();
+
+            // points item queries to the ApiRepository.
+            builder.Services.AddScoped<IItemRepository, ApiItemRepository>();
         }
         else
         {
             // creates a local alternative that talks to the postgres db. Uses LocalAuthenticationService.
             builder.Services.AddDbContext<AppDbContext>();
             builder.Services.AddSingleton<IAuthenticationService, LocalAuthenticationService>();
+
+            // points item queries to local ItemRepository.
+            builder.Services.AddScoped<IItemRepository, ItemRepository>();
         }
         
         // lets ViewModels navigate betwen pages without needing Maui shell class.
