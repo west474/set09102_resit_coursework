@@ -79,7 +79,7 @@ public class ApiAuthenticationService : IAuthenticationService
                 // keeps password and hash empty as not expected.
                 var profile = await profileResponse.Content
                     .ReadFromJsonAsync<UserProfileResponse>(JsonOptions);
-                if (profileResponse != null)
+                if (profile != null)
                 {
                     _currentUser = new User
                     {

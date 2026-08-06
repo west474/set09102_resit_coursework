@@ -1,6 +1,8 @@
 using StarterApp.Database.Models;
 using StarterApp.Services;
 
+namespace StarterApp.Services;
+
 public interface IApiService
 {
     // Authentication
