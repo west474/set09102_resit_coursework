@@ -64,7 +64,12 @@ public class ApiAuthenticationService : IAuthenticationService
 
             // save token to device secure storage.
             await SecureStorage.SetAsync("auth_token", tokenResponse.Token);
+
+            // sets user_id as the userId from token response.
             await SecureStorage.SetAsync("user_id", tokenResponse.UserId.ToString());
+
+            // sets token_expires_at time at Zulu time recorded on token response.
+            await SecureStorage.SetAsync("token_expires_at", tokenResponse.ExpiresAt.ToString("o"));
 
             // use bearer token when API request is made
             _httpClient.DefaultRequestHeaders.Authorization =
@@ -163,6 +168,19 @@ public class ApiAuthenticationService : IAuthenticationService
 
         AuthenticationStateChanged?.Invoke(this, false);
         await Task.CompletedTask;
+    }
+
+    // checks if the token is expired.
+    public async Task<bool> IsTokenExpiredAsync()
+    {
+        // gets the token expiry time from secure storage.
+        var expiresAt = await SecureStorage.GetAsync("token_expires_at");
+
+        // if expires at does not exist, set expired = true.
+        if (string.IsNullOrEmpty(expiresAt)) return true;
+
+        // return when the token expires.
+        return DateTime.UtcNow >= DateTime.Parse(expiresAt);    
     }
 
     // --- Role Checks --- //
