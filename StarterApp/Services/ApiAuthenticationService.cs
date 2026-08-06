@@ -25,6 +25,7 @@ public class ApiAuthenticationService : IAuthenticationService
     public List<string> CurrentUserRoles => _currentUserRoles;
 
     // sets JSON parser to ignore case sensitivity to stop parse values returning null.
+    // reference: https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/character-casing
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
         PropertyNameCaseInsensitive = true    
