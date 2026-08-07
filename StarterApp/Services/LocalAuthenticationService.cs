@@ -137,6 +137,7 @@ public class LocalAuthenticationService : IAuthenticationService
         return Task.CompletedTask;
     }
 
+    public Task<bool> TryRestoreSessionAsync() => Task.FromResult(false);
     // --- Role Checks --- //
 
     // checking for specific role using string comparison.

@@ -2,9 +2,9 @@ using StarterApp.ViewModels;
 
 namespace StarterApp.Views;
 
-public partial class UserListPage : ContentPage
+public partial class ItemDetailPage : ContentPage
 {
-    public UserListPage(UserListViewModel viewModel)
+    public ItemDetailPage(ItemViewModel viewModel)
     {
         InitializeComponent();
         BindingContext = viewModel;

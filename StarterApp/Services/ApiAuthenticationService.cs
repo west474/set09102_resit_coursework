@@ -25,7 +25,6 @@ public class ApiAuthenticationService : IAuthenticationService
     public List<string> CurrentUserRoles => _currentUserRoles;
 
     // sets JSON parser to ignore case sensitivity to stop parse values returning null.
-    // reference: https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/character-casing
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
         PropertyNameCaseInsensitive = true    
@@ -182,6 +181,33 @@ public class ApiAuthenticationService : IAuthenticationService
 
         // return when the token expires.
         return DateTime.UtcNow >= DateTime.Parse(expiresAt);    
+    }
+
+    public async Task<bool> TryRestoreSessionAsync()
+    {
+        var token = await SecureStorage.GetAsync("auth_token");
+        if (string.IsNullOrEmpty(token)) return false;
+        if (await IsTokenExpiredAsync()) return false;
+
+        _httpClient.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", token);
+
+        var profileResponse = await _httpClient.GetAsync("users/me");
+        if (!profileResponse.IsSuccessStatusCode) return false;
+
+        var profile = await profileResponse.Content.ReadFromJsonAsync<UserProfileResponse>(JsonOptions);
+        if (profile == null) return false;
+
+        _currentUser = new User
+        {
+            Id = profile.Id, Email = profile.Email,
+            FirstName = profile.FirstName, LastName = profile.LastName,
+            CreatedAt = profile.CreatedAt, UpdatedAt = profile.CreatedAt,
+            IsActive = true, PasswordHash = string.Empty, PasswordSalt = string.Empty
+        };
+
+        AuthenticationStateChanged?.Invoke(this, true);
+        return true;
     }
 
     // --- Role Checks --- //

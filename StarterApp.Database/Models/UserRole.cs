@@ -16,7 +16,7 @@ public class UserRole
     [Required]
     public int RoleId { get; set; }
 
-    // Navigation properties with proper foreign key attributes
+    // navigation with foreign key.
     [ForeignKey(nameof(UserId))]
     public User User { get; set; } = null!;
     

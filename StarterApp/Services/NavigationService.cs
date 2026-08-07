@@ -19,7 +19,7 @@ public class NavigationService : INavigationService
 
     public async Task NavigateToRootAsync()
     {
-        await Shell.Current.GoToAsync("//login");
+        await Shell.Current.GoToAsync("login");
     }
 
     public async Task PopToRootAsync()

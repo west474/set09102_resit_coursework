@@ -75,9 +75,16 @@ namespace StarterApp.ViewModels
         {
             LogoutCommand.NotifyCanExecuteChanged();
             NavigateToProfileCommand.NotifyCanExecuteChanged();
-            NavigateToSettingsCommand.NotifyCanExecuteChanged();
             Debug.WriteLine($"Authentication state changed: {isAuthenticated}");
             Debug.WriteLine($"Current user is admin: {_authService.HasRole("Admin")}");
+        }
+
+        /// @brief Navigates to the items (main) page.
+        /// @return A task representing the asynchronous navigation operation
+        [RelayCommand]
+        private async Task NavigateToItemsAsync()
+        {
+            await _navigationService.NavigateToAsync("///items");
         }
 
         /// @brief Navigates to the current user's profile page
@@ -85,29 +92,51 @@ namespace StarterApp.ViewModels
         [RelayCommand]
         private async Task NavigateToProfileAsync()
         {
-            await _navigationService.NavigateToAsync("TempPage");
+            await _navigationService.NavigateToAsync("///profile");
         }
 
-        /// @brief Navigates to the current user's settings page
+        /// @brief Navigates to the current user's rentals page
         /// @return A task representing the asynchronous navigation operation
         [RelayCommand]
-        private async Task NavigateToSettingsAsync()
+        private async Task NavigateToRentalsAsync()
         {
-            await _navigationService.NavigateToAsync("TempPage");
+            await _navigationService.NavigateToAsync("///rentals");
         }
-
+    
         /// @brief Logs out the current user and navigates to login page
         /// @details Relay command that can only be executed by authenticated users
         /// @return A task representing the asynchronous logout operation
-        [RelayCommand(CanExecute = nameof(CanExecuteAuthenticatedAction))]
+        [RelayCommand]
         private async Task LogoutAsync()
         {
             await _authService.LogoutAsync();
-            await _navigationService.NavigateToAsync("LoginPage");
+            await _navigationService.NavigateToAsync("///login");
 
             LogoutCommand.NotifyCanExecuteChanged();
             NavigateToProfileCommand.NotifyCanExecuteChanged();
-            NavigateToSettingsCommand.NotifyCanExecuteChanged();
+        }
+        
+        [RelayCommand]
+        private async Task ShowAccountMenuAsync()
+        {
+            var choice = await Shell.Current.DisplayActionSheetAsync(
+                "Account", "Cancel", null, "Items", "Profile", "Rentals", "Logout");
+
+            switch (choice)
+            {
+                case "Items":
+                    await NavigateToItemsAsync();
+                    break;
+                case "Profile":
+                    await NavigateToProfileAsync();
+                    break;
+                case "Rentals":
+                    await NavigateToRentalsAsync();
+                    break;
+                case "Logout":
+                    await LogoutAsync();
+                    break;
+            }
         }
     }
 }

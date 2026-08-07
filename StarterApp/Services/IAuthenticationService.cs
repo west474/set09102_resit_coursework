@@ -26,6 +26,9 @@ public interface IAuthenticationService
     // returns success/fail authentication token.
     Task<AuthToken> RegisterAsync(string firstName, string lastName, string email, string password);
     Task LogoutAsync();
+
+    // attempts to restore session
+    Task<bool> TryRestoreSessionAsync();
     
     // --- Role Checks --- //
 
