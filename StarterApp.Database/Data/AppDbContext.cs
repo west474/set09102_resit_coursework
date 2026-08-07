@@ -37,6 +37,8 @@ public class AppDbContext : DbContext
     public DbSet<Role> Roles { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<UserRole> UserRoles { get; set; }
+    public DbSet<Item> Items { get; set; }
+    public DbSet<Category> Categories { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -73,6 +75,29 @@ public class AppDbContext : DbContext
             entity.HasOne(ur => ur.Role)
                   .WithMany(r => r.UserRoles)
                   .HasForeignKey(ur => ur.RoleId);
+        });
+
+        modelBuilder.Entity<Item>(entity =>
+        {
+            entity.Property(e => e.Title).HasMaxLength(200);
+            entity.Property(e => e.DailyRate).HasColumnType("decimal(10,2)");
+
+            entity.HasOne(i => i.Owner)
+                .WithMany()
+                .HasForeignKey(i => i.OwnerId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(i => i.Category)
+                .WithMany()
+                .HasForeignKey(i => i.CategoryId)
+                .OnDelete(DeleteBehavior.SetNull); 
+        });
+        
+        modelBuilder.Entity<Category>(entity =>
+        {
+            entity.HasIndex(e => e.Slug).IsUnique();
+            entity.Property(e => e.Name).HasMaxLength(100);
+            entity.Property(e => e.Slug).HasMaxLength(100);
         });
     }
 
