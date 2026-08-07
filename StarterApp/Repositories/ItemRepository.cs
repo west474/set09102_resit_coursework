@@ -95,7 +95,7 @@ public class ItemRepository : IItemRepository
             existing.CategoryId = entity.CategoryId;
             existing.Latitude = entity.Latitude;
             existing.Longitude = entity.Longitude;
-            existing.dailyRate = entity.DailyRate;
+            existing.DailyRate = entity.DailyRate;
             existing.IsAvailable = entity.IsAvailable;
             existing.UpdatedAt = DateTime.UtcNow;
 
