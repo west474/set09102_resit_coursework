@@ -5,6 +5,7 @@ using StarterApp.Views;
 using System.Diagnostics;
 using StarterApp.Services;
 using StarterApp.Repositories;
+using StarterApp.Database.Models;
 
 namespace StarterApp;
 
@@ -47,8 +48,15 @@ public static class MauiProgram
             // it results in this being called.
             builder.Services.AddSingleton<IAuthenticationService, ApiAuthenticationService>();
 
+
             // points item queries to the ApiRepository.
             builder.Services.AddScoped<IItemRepository, ApiItemRepository>();
+
+            // creates singleton for ApiCategoryRepository.
+            builder.Services.AddScoped<IRepository<Category>, ApiCategoryRepository>();
+
+            // creates singleton for ApiRentalRepository.
+            builder.Services.AddScoped<IRentalRepository, ApiRentalRepository>();   
         }
         else
         {
@@ -58,6 +66,12 @@ public static class MauiProgram
 
             // points item queries to local ItemRepository.
             builder.Services.AddScoped<IItemRepository, ItemRepository>();
+
+            // creates singleton for local CategoryRepository.
+            builder.Services.AddScoped<IRepository<Category>, CategoryRepository>();
+
+            // creates singleton for local RentalRepository.
+            builder.Services.AddScoped<IRentalRepository, RentalRepository>();
         }
         
         // lets ViewModels navigate betwen pages without needing Maui shell class.
@@ -70,12 +84,18 @@ public static class MauiProgram
 
         // creates singletons of the viewmodel logic for the session.
         // uses transient to recreate page contents when navigated to.
-        builder.Services.AddTransient<MainViewModel>();
-        builder.Services.AddTransient<MainPage>();
         builder.Services.AddSingleton<LoginViewModel>();
         builder.Services.AddTransient<LoginPage>();
         builder.Services.AddSingleton<RegisterViewModel>();
         builder.Services.AddTransient<RegisterPage>();
+        builder.Services.AddTransient<ItemsViewModel>();
+        builder.Services.AddTransient<ItemsListPage>();
+        builder.Services.AddTransient<ItemViewModel>();
+        builder.Services.AddTransient<ItemDetailPage>();
+        builder.Services.AddTransient<RentalsViewModel>();
+        builder.Services.AddTransient<RentalsPage>();
+        builder.Services.AddTransient<ProfileViewModel>();
+        builder.Services.AddTransient<ProfilePage>();
 
 #if DEBUG
         builder.Logging.AddDebug();

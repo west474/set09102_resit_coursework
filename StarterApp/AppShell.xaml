@@ -6,6 +6,13 @@
     xmlns:views="clr-namespace:StarterApp.Views"
     Shell.FlyoutBehavior="Disabled">
 
-    <ShellContent ContentTemplate="{DataTemplate views:LoginPage}" />
+    <Shell.ToolbarItems>
+        <ToolbarItem Text="Menu" Command="{Binding ShowAccountMenuCommand}" Order="Primary" Priority="0" />
+    </Shell.ToolbarItems>
 
+    <ShellContent Route="login" ContentTemplate="{DataTemplate views:LoginPage}" />
+    <ShellContent Route="items" ContentTemplate="{DataTemplate views:ItemsListPage}" />
+    <ShellContent Route="item" ContentTemplate="{DataTemplate views:ItemDetailPage}" />
+    <ShellContent Route="rentals" ContentTemplate="{DataTemplate views:RentalsPage}" />
+    <ShellContent Route="profile" ContentTemplate="{DataTemplate views:ProfilePage}" />
 </Shell>

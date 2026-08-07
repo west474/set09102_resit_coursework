@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="StarterApp.Views.ItemDetailPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:StarterApp.ViewModels"
+             x:DataType="viewmodels:ItemViewModel"
+             Title="{Binding Title}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="12">
+
+            <Label Text="{Binding ErrorMessage}" TextColor="Red" IsVisible="{Binding HasError}" />
+
+            <Label Text="Title" FontAttributes="Bold" />
+            <Entry Text="{Binding Title}" IsEnabled="{Binding IsOwner}" Placeholder="e.g. Electric Drill" />
+
+            <Label Text="Description" FontAttributes="Bold" />
+            <Editor Text="{Binding Description}" IsEnabled="{Binding IsOwner}" AutoSize="TextChanges" HeightRequest="100" />
+
+            <Label Text="Category" FontAttributes="Bold" />
+            <Picker ItemsSource="{Binding Categories}" IsEnabled="{Binding IsOwner}"
+                    ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding SelectedCategory}" />
+
+            <Label Text="Daily Rate (£)" FontAttributes="Bold" />
+            <Entry Text="{Binding DailyRate}" IsEnabled="{Binding IsOwner}" Keyboard="Numeric" />
+
+            <Label Text="Latitude" FontAttributes="Bold" />
+            <Entry Text="{Binding Latitude}" IsEnabled="{Binding IsOwner}" Keyboard="Numeric" />
+
+            <Label Text="Longitude" FontAttributes="Bold" />
+            <Entry Text="{Binding Longitude}" IsEnabled="{Binding IsOwner}" Keyboard="Numeric" />
+
+            <HorizontalStackLayout Spacing="10">
+                <Label Text="Available for rent" VerticalOptions="Center" />
+                <Switch IsToggled="{Binding IsAvailable}" IsEnabled="{Binding IsOwner}" />
+            </HorizontalStackLayout>
+
+            <!-- Non-owner: request a rental -->
+            <BoxView HeightRequest="1" Color="LightGray" Margin="0,20,0,10" IsVisible="{Binding CanRequestRental}" />
+
+            <Label Text="Request this item" FontAttributes="Bold" FontSize="18" IsVisible="{Binding CanRequestRental}" />
+
+            <Label Text="Start Date" FontAttributes="Bold" IsVisible="{Binding CanRequestRental}" />
+            <DatePicker Date="{Binding RentalStartDate}" IsVisible="{Binding CanRequestRental}" />
+
+            <Label Text="End Date" FontAttributes="Bold" IsVisible="{Binding CanRequestRental}" />
+            <DatePicker Date="{Binding RentalEndDate}" IsVisible="{Binding CanRequestRental}" />
+
+            <Button Text="Request Rental" Command="{Binding RequestRentalCommand}"
+                    IsVisible="{Binding CanRequestRental}" BackgroundColor="DodgerBlue" TextColor="White" />
+
+            <Button Text="Save Changes" Command="{Binding SaveCommand}"
+                IsVisible="{Binding SaveCommand}" BackgroundColor="#FF12E246" TextColor="Black" />
+
+            <Button Text="Cancel" Command="{Binding CancelCommand}" />
+
+            <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

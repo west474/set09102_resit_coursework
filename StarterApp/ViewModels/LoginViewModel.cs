@@ -84,7 +84,7 @@ public partial class LoginViewModel : BaseViewModel
 
             if (result.IsSuccess)
             {
-                await _navigationService.NavigateToAsync("MainPage");
+                await _navigationService.NavigateToAsync("///items");
             }
             else
             {
@@ -118,6 +118,6 @@ public partial class LoginViewModel : BaseViewModel
     private async Task ForgotPasswordAsync()
     {
         // TODO: Implement forgot password functionality
-        await Application.Current.MainPage.DisplayAlert("Info", "Forgot password functionality not implemented yet", "OK");
+        await Shell.Current.DisplayAlertAsync("Info", "Forgot password functionality not implemented yet", "OK");
     }
 }

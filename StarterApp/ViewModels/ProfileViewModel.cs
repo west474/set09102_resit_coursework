@@ -87,7 +87,7 @@ public partial class ProfileViewModel : BaseViewModel
 
             if (success)
             {
-                await Application.Current.MainPage.DisplayAlert("Success", "Password changed successfully!", "OK");
+                await Shell.Current.DisplayAlertAsync("Success", "Password changed successfully!", "OK");
                 ClearPasswordFields();
                 IsChangingPassword = false;
             }
@@ -125,7 +125,7 @@ public partial class ProfileViewModel : BaseViewModel
     [RelayCommand]
     private async Task NavigateBackAsync()
     {
-        await _navigationService.NavigateBackAsync();
+        await _navigationService.NavigateToAsync("///items");
     }
 
     /// @brief Validates the password change form data

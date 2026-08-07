@@ -91,8 +91,8 @@ public partial class RegisterViewModel : BaseViewModel
 
             if (result.IsSuccess)
             {
-                await Application.Current.MainPage.DisplayAlert("Success", "Registration successful! Please login.", "OK");
-                await _navigationService.NavigateBackAsync();
+                await Shell.Current.DisplayAlertAsync("Success", "Registration successful! Logging you in...", "OK");
+                await _navigationService.NavigateToAsync("///items");
             }
             else
             {

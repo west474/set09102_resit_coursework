@@ -39,12 +39,13 @@ public class AppDbContext : DbContext
     public DbSet<UserRole> UserRoles { get; set; }
     public DbSet<Item> Items { get; set; }
     public DbSet<Category> Categories { get; set; }
+    public DbSet<Rental> Rentals { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
-        // Configure User entity
+        // configure User entity.
         modelBuilder.Entity<User>(entity =>
         {
             entity.HasIndex(e => e.Email).IsUnique();
@@ -55,7 +56,7 @@ public class AppDbContext : DbContext
             entity.Property(e => e.PasswordSalt).HasMaxLength(255);
         });
 
-        // Configure Role entity
+        // configure Role entity.
         modelBuilder.Entity<Role>(entity =>
         {
             entity.HasIndex(e => e.Name).IsUnique();
@@ -63,7 +64,7 @@ public class AppDbContext : DbContext
             entity.Property(e => e.Description).HasMaxLength(500);
         });
 
-        // Configure UserRole entity
+        // configure UserRole entity.
         modelBuilder.Entity<UserRole>(entity =>
         {
             entity.HasIndex(e => new { e.UserId, e.RoleId }).IsUnique();
@@ -77,6 +78,7 @@ public class AppDbContext : DbContext
                   .HasForeignKey(ur => ur.RoleId);
         });
 
+        // configure item entity.
         modelBuilder.Entity<Item>(entity =>
         {
             entity.Property(e => e.Title).HasMaxLength(200);
@@ -93,12 +95,25 @@ public class AppDbContext : DbContext
                 .OnDelete(DeleteBehavior.SetNull); 
         });
         
+        // configure category entity.
         modelBuilder.Entity<Category>(entity =>
         {
             entity.HasIndex(e => e.Slug).IsUnique();
             entity.Property(e => e.Name).HasMaxLength(100);
             entity.Property(e => e.Slug).HasMaxLength(100);
         });
-    }
 
+        modelBuilder.Entity<Rental>(entity =>
+        {
+            entity.HasIndex(r => r.OwnerId);
+            entity.HasIndex(r => r.BorrowerId);
+            entity.HasIndex(r => r.ItemId);
+
+            entity.Property(r => r.TotalPrice).HasColumnType("decimal(10,2)");
+            entity.Property(r => r.Status).HasMaxLength(50);
+            entity.Property(r => r.ItemTitle).HasMaxLength(200);
+            entity.Property(r => r.BorrowerName).HasMaxLength(200);
+            entity.Property(r => r.OwnerName).HasMaxLength(200);
+        });
+    }
 }

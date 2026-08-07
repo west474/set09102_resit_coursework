@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="StarterApp.Views.ProfilePage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:StarterApp.ViewModels"
+             x:DataType="viewmodels:ProfileViewModel"
+             Title="{Binding Title}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Label Text="{Binding ErrorMessage}" TextColor="Red" IsVisible="{Binding HasError}" />
+
+            <Label Text="{Binding CurrentUser.FullName}" FontSize="22" FontAttributes="Bold" />
+            <Label Text="{Binding CurrentUser.Email}" FontSize="16" TextColor="Gray" />
+
+            <BoxView HeightRequest="1" Color="LightGray" Margin="0,10" />
+
+            <Button Text="Change Password" Command="{Binding TogglePasswordChangeModeCommand}" />
+
+            <VerticalStackLayout IsVisible="{Binding IsChangingPassword}" Spacing="10">
+                <Entry Placeholder="Current password" IsPassword="True" Text="{Binding CurrentPassword}" />
+                <Entry Placeholder="New password" IsPassword="True" Text="{Binding NewPassword}" />
+                <Entry Placeholder="Confirm new password" IsPassword="True" Text="{Binding ConfirmNewPassword}" />
+                <Button Text="Save Password" Command="{Binding ChangePasswordCommand}"
+                        BackgroundColor="DodgerBlue" TextColor="White" />
+            </VerticalStackLayout>
+
+            <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" />
+
+            <Button Text="Back" Command="{Binding NavigateBackCommand}" Margin="0,20,0,0" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

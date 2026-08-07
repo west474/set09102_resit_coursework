@@ -16,7 +16,14 @@ public class Item
 
     // sets a category for the item.
     public int? CategoryId { get; set; }
+
+    // local db only, json ignores.
+    [JsonIgnore]
     public Category? Category { get; set; }
+
+    // category for API to read.
+    [JsonPropertyName("category")]
+    public string? CategoryName { get; set; }
 
     // sets an owner for the item.
     // important for being able to update item as only
