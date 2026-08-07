@@ -1,8 +1,7 @@
 ---
 title: "Item Sharing App readme"
 parent: StarterApp
-nav_order: 5
-mermaid: true
+author: Richard West
 ---
 
 # Sharing App README
