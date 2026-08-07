@@ -1,20 +1,14 @@
 ---
-title: "StarterApp readme"
+title: "Item Sharing App readme"
 parent: StarterApp
-grand_parent: C# practice
 nav_order: 5
 mermaid: true
 ---
 
-# StarterApp
+# Sharing App README
 
-The purpose of this app is to act as a starting point for further development. It provides some
-basic features including:
+This document aims to lay out how to get started with the Item Sharing App.
 
-* Database integration and migrations
-* Role-based security
-* Local authentication
-* Example navigation
 
 This version of the app uses PostgreSQL for data storage and Entity Framework Core for object-relational mapping
 and migrations.
@@ -23,13 +17,14 @@ To fully understand how it works, you should follow an appropriate set of tutori
 [this one](https://edinburgh-napier.github.io/SET09102/tutorials/csharp/) which covers all of the main
 concepts and techniques used here. However, if you want to jump straight in and work out any problems
 as you go along, that will also work. The code uses structured comments for use with the 
-[Doxygen](https://www.doxygen.nl/) documentation generator tool. 
 
 You can use any development environment with this project including
 
 * [Rider](https://www.jetbrains.com/rider/)
 * [Visual Studio](https://visualstudio.microsoft.com/)
 * [Visual Studio Code](https://code.visualstudio.com/)
+
+This was built using VSCode on a Windows 11 machine.
 
 The instructions assume you will be using VSCode since that is a lowest-common-denominator choice.
 
@@ -39,7 +34,7 @@ This app is built using the following tool versions.
 
 | Name                                                                                      | Version     |
 |-------------------------------------------------------------------------------------------|-------------|
-| [.NET](https://dotnet.microsoft.com/en-us/)                                               | 8.0 / 9.0   |
+| [.NET](https://dotnet.microsoft.com/en-us/)                                               | 10.0.0    |
 | [PostgreSQL Docker image](https://hub.docker.com/_/postgres)                              | 16          |
 
 
@@ -59,31 +54,34 @@ Before using this app, ensure you have:
 2. Update the connection string with your PostgreSQL credentials:
    ```json
    {
-     "ConnectionStrings": {
-       "DevelopmentConnection": "Host=localhost;Username=student_user;Password=password123;Database=starterapp"
-     }
-   }
+   "ConnectionStrings": {
+      "DevelopmentConnection": "Host=AppDB;Port=5432;Database=appdb;Username=app_user;Password=app_password"
+      "}
+   } 
    ```
 
 ### Initial Setup
 
-1. Navigate to the Migrations project and create the initial migration:
+1. Open project in VSCode. When prompted, open in Dev container. If no dev container installed, please follow this guide to get the environment prepared properly: https://edinburgh-napier.github.io/SET09102/tutorials/csharp/dev-environment/
+
+2. Navigate to the Migrations project and create the initial migration:
    ```bash
    cd StarterApp.Migrations
    dotnet ef migrations add InitialCreate
    ```
 
-2. Apply the migration to create the database:
+3. Apply the migration to create the database:
    ```bash
    dotnet ef database update
    ```
 
-3. Build and run the application:
+4. Build and run the application:
    ```bash
    cd ../StarterApp
    dotnet build
    dotnet run
    ```
+
 
 ### Tutorial
 
