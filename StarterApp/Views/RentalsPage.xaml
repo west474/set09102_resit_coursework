@@ -7,6 +7,7 @@
              x:DataType="viewmodels:RentalsViewModel"
              Title="{Binding Title}">
 
+<!-- generated with ChatGPT -->
     <Grid RowDefinitions="Auto,*">
 
         <Grid Grid.Row="0" ColumnDefinitions="*,*" Margin="10" ColumnSpacing="10">

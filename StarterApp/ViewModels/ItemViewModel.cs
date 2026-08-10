@@ -80,6 +80,7 @@ public partial class ItemViewModel : BaseViewModel, IQueryAttributable
         Title = "New Item";
     }
 
+    // applyQueryAttributes ref: https://tinyurl.com/3fbpvxy8
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
         if (query.TryGetValue("id", out var idValue) && int.TryParse(idValue?.ToString(), out var id))

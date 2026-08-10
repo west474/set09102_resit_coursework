@@ -84,6 +84,7 @@ public static class MauiProgram
 
         // creates singletons of the viewmodel logic for the session.
         // uses transient to recreate page contents when navigated to.
+        // state management ref: https://www.youtube.com/watch?v=oC5zpEbwViE
         builder.Services.AddSingleton<LoginViewModel>();
         builder.Services.AddTransient<LoginPage>();
         builder.Services.AddSingleton<RegisterViewModel>();

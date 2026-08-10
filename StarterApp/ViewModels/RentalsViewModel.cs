@@ -35,6 +35,7 @@ public partial class RentalsViewModel : BaseViewModel
             IsBusy = true;
             ClearError();
 
+            // ternary operator reference: https://tinyurl.com/yjk3m2x7
             var rentalsList = IsShowingIncoming
                 ? await _rentalRepository.GetIncomingAsync()
                 : await _rentalRepository.GetOutgoingAsync();

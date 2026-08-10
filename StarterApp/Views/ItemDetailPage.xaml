@@ -6,6 +6,7 @@
              x:DataType="viewmodels:ItemViewModel"
              Title="{Binding Title}">
 
+<!-- Generated with ChatGPT -->
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="12">
 

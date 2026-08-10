@@ -137,6 +137,7 @@ public class LocalAuthenticationService : IAuthenticationService
         return Task.CompletedTask;
     }
 
+    // expression bodied members ref: https://www.youtube.com/watch?v=ta1ia8mnPs0
     public Task<bool> TryRestoreSessionAsync() => Task.FromResult(false);
     // --- Role Checks --- //
 

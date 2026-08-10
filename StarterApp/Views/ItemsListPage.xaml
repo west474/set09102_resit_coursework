@@ -7,6 +7,7 @@
              x:DataType="viewmodels:ItemsViewModel"
              Title="{Binding Title}">
 
+<!-- Generated with ChatGPT -->
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Add Item" Command="{Binding AddItemCommand}" />
     </ContentPage.ToolbarItems>
